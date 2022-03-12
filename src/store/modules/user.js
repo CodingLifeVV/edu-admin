@@ -56,7 +56,7 @@ const actions = {
         const { name, avatar } = data
 
         commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
+        commit('SET_AVATAR', avatar) // 头像
         resolve(data)
       }).catch(error => {
         reject(error)
