@@ -1,8 +1,7 @@
 <template>
   <div class="app-container">
-    教师列表
 
-    <!--查询表单-->
+    <!--查询表单 教师列表-->
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
         <el-input v-model="searchObj.name" placeholder="教师名" />
@@ -57,7 +56,7 @@
       <el-table-column prop="name" label="名称" width="80" />
       <el-table-column label="头衔" width="80">
         <template slot-scope="scope">
-          {{ scope.row.level===1?'高级讲师':'首席讲师' }}
+          {{ scope.row.level===1?'高级教师':'首席教师' }}
         </template>
       </el-table-column>
       <el-table-column prop="intro" label="资历" />
@@ -79,6 +78,7 @@
         </template>
       </el-table-column>
     </el-table>
+
     <!-- 分页 -->
     <el-pagination
       :current-page="page"
@@ -95,10 +95,10 @@
 <script>
 import teacher from '@/api/edu/teacher'
 export default {
-  data() { // 定义数据
+  data() { // 定义变量和初始值, 名字随便写
     return {
       listLoading: true, // 是否显示loading信息
-      list: null, // 数据列表
+      list: null, // 查询之后返回的数据列表
       total: 0, // 总记录数
       page: 1, // 页码
       limit: 10, // 每页记录数
@@ -117,13 +117,12 @@ export default {
       this.listLoading = true
       // 分页查询教师信息
       teacher.getPageList(this.page, this.limit, this.searchObj).then(response => {
-        // 请求成功, response接口返回的数据
-        if (response.success === true) {
-          this.list = response.data.rows
-          // console.log(this.list) // 返回数据集合
-          this.total = response.data.total
-          // console.log(this.total) // 总记录数
-        }
+        // .then请求成功, response接口返回的数据
+        this.list = response.data.rows
+        // console.log(this.list) // 返回数据集合
+        this.total = response.data.total
+        this.listLoading = false
+        // console.log(this.total) // 总记录数
       })
       // 请求失败
         .catch(error => {
@@ -137,32 +136,23 @@ export default {
     },
     // 通过id删除教师信息
     removeDataById(id) {
-      // console.log(memberId)
-      this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除讲师记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        return teacher.removeById(id)
-      }).then(() => {
-        this.fetchData()
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-      }).catch((response) => { // 失败
-        if (response === 'cancel') {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
+      }).then(() => { // 点击确定，执行then方法
+        // 调用删除的方法
+        teacher.deleteTeacherId(id)
+          .then(response => { // 删除成功
+            // 提示信息
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            })
+            // 回到列表页面
+            this.fetchData()
           })
-        } else {
-          this.$message({
-            type: 'error',
-            message: '删除失败'
-          })
-        }
-      })
+      }) // 点击取消，执行catch方法
     }
   }
 }

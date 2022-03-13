@@ -185,7 +185,9 @@ export const constantRoutes = [
         path: 'edit/:id',
         name: 'EduTeacherEdit',
         component: () => import('@/views/edu/teacher/form'),
-        meta: { title: '修改信息' }
+        meta: { title: '修改信息' },
+        // hidden 隐藏路由界面, 添加教师和修改教师信息页面一样, 因此可以使用同一个页面
+        hidden: true
       }
 
     ]
