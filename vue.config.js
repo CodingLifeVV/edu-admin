@@ -36,6 +36,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    // 注释掉mock
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {

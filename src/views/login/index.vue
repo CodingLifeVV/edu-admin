@@ -110,7 +110,7 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+            this.$router.push({ path: this.redirect || '/' }) // 路由跳转到 store/modules 路径下 user.js
             this.loading = false
           }).catch(() => {
             this.loading = false

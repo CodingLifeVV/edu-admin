@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 // const 将变量声明为一个常量
-const api_name = '/teacher'
+const api_name = '/edu/teacher'
 
 // export default 导出常量、函数、文件、模块等
 // 使用 import 导入
