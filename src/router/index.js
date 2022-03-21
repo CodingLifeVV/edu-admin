@@ -173,7 +173,7 @@ export const constantRoutes = [
         path: 'list',
         name: 'EduTeacherList',
         component: () => import('@/views/edu/teacher/list'),
-        meta: { title: '讲师列表' }
+        meta: { title: '教师列表' }
       },
       {
         path: 'add',
@@ -189,7 +189,28 @@ export const constantRoutes = [
         // hidden 隐藏路由界面, 添加教师和修改教师信息页面一样, 因此可以使用同一个页面
         hidden: true
       }
-
+    ]
+  },
+  // 课程分类管理
+  {
+    path: '/edu/subject',
+    component: Layout,
+    redirect: '/edu/subject/list',
+    name: 'EduCourseSubject',
+    meta: { title: '课程分类管理', icon: 'example' },
+    children: [
+      {
+        path: 'list',
+        name: 'EduCourseSubjectList',
+        component: () => import('@/views/edu/subject/list'),
+        meta: { title: '课程分类列表', icon: 'table' }
+      },
+      {
+        path: 'save',
+        name: 'EduCourseSubjectAdd',
+        component: () => import('@/views/edu/subject/save'),
+        meta: { title: '添加课程分类', icon: 'tree' }
+      }
     ]
   },
 

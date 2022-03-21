@@ -3,13 +3,16 @@
 
     <!--查询表单 教师列表-->
     <el-form :inline="true" class="demo-form-inline">
+
       <el-form-item>
         <el-input v-model="searchObj.name" placeholder="教师名" />
       </el-form-item>
       <el-form-item>
-        <el-select v-model="searchObj.level" clearable placeholder="教师头衔">
-          <el-option :value="1" label="高级教师" />
-          <el-option :value="2" label="首席教师" />
+        <el-select v-model="searchObj.level" clearable placeholder="教师职称">
+          <el-option :value="1" label="教授" />
+          <el-option :value="2" label="副教授" />
+          <el-option :value="3" label="讲师" />
+          <el-option :value="4" label="助教" />
         </el-select>
       </el-form-item>
       <el-form-item label="添加时间">
@@ -53,10 +56,14 @@
           {{ (page - 1) * limit + scope.$index + 1 }}
         </template>
       </el-table-column>
+      <el-table-column prop="id" label="ID" width="180" />
       <el-table-column prop="name" label="名称" width="80" />
       <el-table-column label="头衔" width="80">
         <template slot-scope="scope">
-          {{ scope.row.level===1?'高级教师':'首席教师' }}
+          <p v-if="scope.row.level===1">教授 </p>
+          <p v-if="scope.row.level===2">副教授 </p>
+          <p v-if="scope.row.level===3">讲师 </p>
+          <p v-if="scope.row.level===4">助教 </p>
         </template>
       </el-table-column>
       <el-table-column prop="intro" label="资历" />
@@ -123,11 +130,9 @@ export default {
         this.total = response.data.total
         this.listLoading = false
         // console.log(this.total) // 总记录数
+      }).catch(error => { // 请求失败
+        console.log(error)
       })
-      // 请求失败
-        .catch(error => {
-          console.log(error)
-        })
     },
     // 清空查询信息
     resetData() { // 清空数据

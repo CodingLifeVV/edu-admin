@@ -9,14 +9,16 @@
       <el-form-item label="教师排序">
         <el-input-number v-model="teacher.sort" controls-position="right" min="0" />
       </el-form-item>
-      <el-form-item label="教师头衔">
+      <el-form-item label="教师职称">
         <el-select v-model="teacher.level" clearable placeholder="请选择">
           <!--
             数据类型一定要和取出的json中的一致，否则没法回填
             因此，这里value使用动态绑定的值，保证其数据类型是number
           -->
-          <el-option :value="1" label="高级教师" />
-          <el-option :value="2" label="首席教师" />
+          <el-option :value="1" label="教授" />
+          <el-option :value="2" label="副教授" />
+          <el-option :value="3" label="讲师" />
+          <el-option :value="4" label="助教" />
         </el-select>
       </el-form-item>
       <el-form-item label="教师资历">
