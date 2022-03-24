@@ -11,5 +11,20 @@ export default {
       method: 'post',
       data: courseInfo
     })
+  },
+  // 2 根据id查询课程信息
+  getCourseInfoId(courseId) {
+    return request({
+      url: `${api_name}/getCourseInfo/` + courseId,
+      method: 'get'
+    })
+  },
+  // 修改课程信息
+  updateCourseInfo(courseInfo) {
+    return request({
+      url: `${api_name}/updateCourseInfo`,
+      method: 'post',
+      data: courseInfo
+    })
   }
 }

@@ -6,6 +6,14 @@ const api_name = '/edu/teacher'
 // export default 导出常量、函数、文件、模块等
 // 使用 import 导入
 export default {
+  //
+  // 查询所有讲师
+  getListTeacher() {
+    return request({
+      url: `${api_name}/listAll`,
+      method: 'get'
+    })
+  },
   // 教师列表(分页条件查询)
   getPageList(current, limit, searchObj) {
     return request({

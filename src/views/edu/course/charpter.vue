@@ -1,6 +1,7 @@
 
 <template>
   <div class="app-container">
+    <!-- 2.发布新课程—创建课程大纲 -->
     <h2 style="text-align: center;">发布新课程</h2>
     <el-steps :active="2" process-status="wait" align-center style="margin-bottom: 40px;">
       <el-step title="填写课程基本信息" />
@@ -20,16 +21,24 @@
 export default {
   data() {
     return {
-      saveBtnDisabled: false // 保存按钮是否禁用
+      saveBtnDisabled: false, // 保存按钮是否禁用
+      courseId: '' // 课程id
     }
   },
   created() {
     console.log('chapter created')
+    // 获取路由的id值
+    if (this.$route.params && this.$route.params.id) {
+      this.courseId = this.$route.params.id
+      // 根据课程id查询章节和小节
+      // this.getChapterVideo()
+    }
   },
   methods: {
     previous() {
       console.log('previous')
-      this.$router.push({ path: '/edu/course/info/1' })
+      this.$router.push({ path: '/edu/course/info/' + this.courseId })
+      // this.$router.push({ path: '/edu/course/info/1' })
     },
     next() {
       console.log('next')

@@ -4,6 +4,7 @@ import request from '@/utils/request'
 const api_name = '/edu/subject'
 
 export default {
+  // 获得课程列表
   getAllNestedCourseSubject() {
     return request({
       url: `${api_name}/getAllSubject`,
