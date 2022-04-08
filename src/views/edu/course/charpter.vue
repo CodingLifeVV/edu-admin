@@ -23,15 +23,14 @@
           </span>
         </p>
 
-        <!-- 视频 -->
+        <!-- 小节-视频 -->
         <ul class="chanpterList videoList">
           <li v-for="video in chapter.children" :key="video.id">
             <p>
               {{ video.title }}
               <span class="acts">
-                <el-button style type="text">编辑</el-button>
-                <!-- <el-button type="text" @click="removeVideo(video.id)">删除</el-button> -->
-                <el-button type="text">删除</el-button>
+                <el-button style type="text" @click="openEditVideo(video.id)">编辑</el-button>
+                <el-button type="text" @click="removeVideo(video.id)">删除</el-button>
               </span>
             </p>
           </li>
@@ -41,8 +40,7 @@
 
     <div>
       <el-button @click="previous">上一步</el-button>
-      <el-button :disabled="saveBtnDisabled" type="primary" @click="next">下
-        一步</el-button>
+      <el-button :disabled="saveBtnDisabled" type="primary" @click="next">下一步</el-button>
     </div>
 
     <!-- 添加和修改章节表单 -->
@@ -123,15 +121,18 @@ export default {
     }
   },
   methods: {
+    // 上一步
     previous() {
       console.log('previous')
       this.$router.push({ path: '/edu/course/info/' + this.courseId })
       // this.$router.push({ path: '/edu/course/info/1' })
     },
+    // 下一步
     next() {
       console.log('next')
-      this.$router.push({ path: '/edu/course/publish/1' })
+      this.$router.push({ path: '/edu/course/publish/' + this.courseId })
     },
+    // ==============================章节操作====================================
     // 根据课程id查询所有章节和小节信息
     getChapterVideo() {
       chapterApi.getAllChapterVideo(this.courseId).then(response => {
@@ -214,6 +215,7 @@ export default {
         })
       }) // 点击取消，执行catch方法
     },
+    // ==============================小节操作====================================
     // 添加小节弹框
     openVideo(chapterId) {
       // 弹框
@@ -223,7 +225,12 @@ export default {
     },
     // 添加小节,弹窗点击确定之后调用
     saveOrUpdateVideo() {
-      this.addVideo()
+      // this.addVideo()
+      if (!this.video.id) {
+        this.addVideo()
+      } else {
+        this.updateVideo()
+      }
     },
     // 添加小节
     addVideo() {
@@ -239,6 +246,50 @@ export default {
         })
         // 刷新页面
         this.getChapterVideo()
+      })
+    },
+    // 更新小节信息
+    updateVideo() {
+      videoApi.updateVideo(this.video).then(response => {
+        // 关闭弹框
+        this.dialogVideoFormVisible = false
+        // 提示
+        this.$message({
+          type: 'success',
+          message: '修改小节成功!'
+        })
+        // 刷新页面
+        this.getChapterVideo()
+      })
+    },
+    // 删除小节
+    removeVideo(id) {
+      this.$confirm('此操作将删除小节, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 点击确定，执行then方法
+        // 调用删除的方法
+        videoApi.deleteVideo(id).then(response => {
+          // 删除成功
+          // 提示信息
+          this.$message({
+            type: 'success',
+            message: '删除小节成功!'
+          })
+          // 刷新页面
+          this.getChapterVideo()
+        })
+      }) // 点击取消，执行catch方法
+    },
+    // 修改小节信息,弹框数据回显
+    openEditVideo(videoId) {
+      // 显示弹框
+      this.dialogVideoFormVisible = true
+      // 调用接口
+      videoApi.getVideo(videoId).then(response => {
+        this.video = response.data.video
       })
     }
 
