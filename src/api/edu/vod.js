@@ -8,7 +8,7 @@ export default {
   // 根据id删除云端视频
   deleteAliyunVod(videoSourceId) {
     return request({
-      url: `${api_name}/deleteCourse/${videoSourceId}`,
+      url: `${api_name}/deleteVideoSource/${videoSourceId}`,
       method: 'delete'
     })
   }
